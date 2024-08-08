@@ -1,0 +1,36 @@
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Killerzero01/My-own-ui-library/main/My%20own%20ui%20library"))()
+
+-- Example Script
+local UILibrary = require(game.ReplicatedStorage.UILibrary) -- Adjust the path as necessary
+
+-- Create a Tab
+local tab1 = UILibrary:NewTab("Tab 1")
+
+-- Create a Section in the Tab
+local section1 = UILibrary:CreateSection(tab1, "Section 1")
+
+-- Create a Button in the Section
+UILibrary:CreateButton(section1, "Click Me", function()
+    print("Button clicked!")
+end)
+
+-- Create a Toggle in the Section
+UILibrary:CreateToggle(section1, "Toggle Me", function(state)
+    print("Toggle state:", state)
+end)
+
+-- Create a Slider in the Section
+UILibrary:CreateSlider(section1, "Adjust Me", 0, 100, function(value)
+    print("Slider value:", value)
+end)
+
+-- Create another Tab
+local tab2 = UILibrary:NewTab("Tab 2")
+
+-- Create a Section in the Tab
+local section2 = UILibrary:CreateSection(tab2, "Section 2")
+
+-- Create a Button in the Section
+UILibrary:CreateButton(section2, "Press Me", function()
+    print("Button pressed!")
+end)
