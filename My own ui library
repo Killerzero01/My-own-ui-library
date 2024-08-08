@@ -1,3 +1,4 @@
+-- UILibrary Module
 local UILibrary = {}
 
 -- Create the main UI frame
@@ -16,6 +17,7 @@ local UIStroke = Instance.new("UIStroke", mainFrame)
 UIStroke.Thickness = 2
 UIStroke.Color = Color3.fromRGB(255, 255, 255)
 
+-- Make the frame draggable
 local function makeDraggable(frame)
     local dragging
     local dragInput
@@ -58,20 +60,41 @@ makeDraggable(mainFrame)
 
 -- Function to create a new tab
 function UILibrary:NewTab(text)
+    local tabFrame = Instance.new("Frame")
+    tabFrame.Size = UDim2.new(1, 0, 1, -40)
+    tabFrame.Position = UDim2.new(0, 0, 0, 40)
+    tabFrame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+    tabFrame.Visible = false
+    tabFrame.Parent = mainFrame
+
     local tabButton = Instance.new("TextButton")
-    tabButton.Size = UDim2.new(0, 100, 0, 30)
+    tabButton.Size = UDim2.new(1/3, 0, 0, 40)
+    tabButton.Position = UDim2.new(0, 0, 0, 0)
     tabButton.Text = text
     tabButton.TextColor3 = Color3.fromRGB(255, 255, 255)
     tabButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
     tabButton.BorderSizePixel = 0
     tabButton.Parent = mainFrame
 
-    local tabContent = Instance.new("Frame")
-    tabContent.Size = UDim2.new(1, 0, 1, -30)
-    tabContent.Position = UDim2.new(0, 0, 0, 30)
-    tabContent.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-    tabContent.Visible = false
-    tabContent.Parent = mainFrame
+    local buttonFrame = Instance.new("Frame")
+    buttonFrame.Size = UDim2.new(1, -10, 1, -50)
+    buttonFrame.Position = UDim2.new(0, 5, 0, 45)
+    buttonFrame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    buttonFrame.Parent = tabFrame
+
+    local sliderFrame = Instance.new("Frame")
+    sliderFrame.Size = UDim2.new(1, -10, 1, -50)
+    sliderFrame.Position = UDim2.new(0, 5, 0, 45)
+    sliderFrame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    sliderFrame.Visible = false
+    sliderFrame.Parent = tabFrame
+
+    local toggleFrame = Instance.new("Frame")
+    toggleFrame.Size = UDim2.new(1, -10, 1, -50)
+    toggleFrame.Position = UDim2.new(0, 5, 0, 45)
+    toggleFrame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    toggleFrame.Visible = false
+    toggleFrame.Parent = tabFrame
 
     tabButton.MouseButton1Click:Connect(function()
         for _, child in ipairs(mainFrame:GetChildren()) do
@@ -79,40 +102,26 @@ function UILibrary:NewTab(text)
                 child.Visible = false
             end
         end
-        tabContent.Visible = true
+        tabFrame.Visible = true
     end)
 
-    return tabContent
-end
-
--- Function to create a section
-function UILibrary:CreateSection(parent, text)
-    local section = Instance.new("Frame")
-    section.Size = UDim2.new(1, -10, 0, 60)
-    section.Position = UDim2.new(0, 5, 0, 5)
-    section.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
-    section.Parent = parent
-
-    local label = Instance.new("TextLabel")
-    label.Size = UDim2.new(1, 0, 0, 30)
-    label.Text = text
-    label.TextColor3 = Color3.fromRGB(255, 255, 255)
-    label.BackgroundTransparency = 1
-    label.Parent = section
-
-    return section
+    return {
+        ButtonsFrame = buttonFrame,
+        SlidersFrame = sliderFrame,
+        TogglesFrame = toggleFrame
+    }
 end
 
 -- Function to create a button
-function UILibrary:CreateButton(parent, text, callback)
+function UILibrary:CreateButton(tabFrames, text, callback)
     local button = Instance.new("TextButton")
     button.Size = UDim2.new(1, -10, 0, 30)
-    button.Position = UDim2.new(0, 5, 0, 35)
+    button.Position = UDim2.new(0, 5, 0, #tabFrames.ButtonsFrame:GetChildren() * 35 + 5)
     button.Text = text
     button.TextColor3 = Color3.fromRGB(255, 255, 255)
     button.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
     button.BorderSizePixel = 0
-    button.Parent = parent
+    button.Parent = tabFrames.ButtonsFrame
 
     button.MouseButton1Click:Connect(callback)
 
@@ -120,15 +129,15 @@ function UILibrary:CreateButton(parent, text, callback)
 end
 
 -- Function to create a toggle
-function UILibrary:CreateToggle(parent, text, callback)
+function UILibrary:CreateToggle(tabFrames, text, callback)
     local toggle = Instance.new("TextButton")
     toggle.Size = UDim2.new(1, -10, 0, 30)
-    toggle.Position = UDim2.new(0, 5, 0, 35)
+    toggle.Position = UDim2.new(0, 5, 0, #tabFrames.TogglesFrame:GetChildren() * 35 + 5)
     toggle.Text = text
     toggle.TextColor3 = Color3.fromRGB(255, 255, 255)
     toggle.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
     toggle.BorderSizePixel = 0
-    toggle.Parent = parent
+    toggle.Parent = tabFrames.TogglesFrame
 
     local toggled = false
 
@@ -142,12 +151,12 @@ function UILibrary:CreateToggle(parent, text, callback)
 end
 
 -- Function to create a slider
-function UILibrary:CreateSlider(parent, text, min, max, callback)
+function UILibrary:CreateSlider(tabFrames, text, min, max, callback)
     local slider = Instance.new("Frame")
     slider.Size = UDim2.new(1, -10, 0, 30)
-    slider.Position = UDim2.new(0, 5, 0, 35)
+    slider.Position = UDim2.new(0, 5, 0, #tabFrames.SlidersFrame:GetChildren() * 35 + 5)
     slider.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
-    slider.Parent = parent
+    slider.Parent = tabFrames.SlidersFrame
 
     local label = Instance.new("TextLabel")
     label.Size = UDim2.new(0.2, 0, 1, 0)
