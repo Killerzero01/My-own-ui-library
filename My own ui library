@@ -1,0 +1,185 @@
+local UILibrary = {}
+
+-- Create the main UI frame
+UILibrary.UIFrame = Instance.new("ScreenGui")
+UILibrary.UIFrame.Name = "UILibrary"
+UILibrary.UIFrame.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+
+local mainFrame = Instance.new("Frame")
+mainFrame.Size = UDim2.new(0, 400, 0, 300)
+mainFrame.Position = UDim2.new(0.5, -200, 0.5, -150)
+mainFrame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+mainFrame.BorderSizePixel = 0
+mainFrame.Parent = UILibrary.UIFrame
+
+local UIStroke = Instance.new("UIStroke", mainFrame)
+UIStroke.Thickness = 2
+UIStroke.Color = Color3.fromRGB(255, 255, 255)
+
+local function makeDraggable(frame)
+    local dragging
+    local dragInput
+    local dragStart
+    local startPos
+
+    local function update(input)
+        local delta = input.Position - dragStart
+        frame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+    end
+
+    frame.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+            dragging = true
+            dragStart = input.Position
+            startPos = frame.Position
+
+            input.Changed:Connect(function()
+                if input.UserInputState == Enum.UserInputState.End then
+                    dragging = false
+                end
+            end)
+        end
+    end)
+
+    frame.InputChanged:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+            dragInput = input
+        end
+    end)
+
+    game:GetService("UserInputService").InputChanged:Connect(function(input)
+        if input == dragInput and dragging then
+            update(input)
+        end
+    end)
+end
+
+makeDraggable(mainFrame)
+
+-- Function to create a new tab
+function UILibrary:NewTab(text)
+    local tabButton = Instance.new("TextButton")
+    tabButton.Size = UDim2.new(0, 100, 0, 30)
+    tabButton.Text = text
+    tabButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    tabButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    tabButton.BorderSizePixel = 0
+    tabButton.Parent = mainFrame
+
+    local tabContent = Instance.new("Frame")
+    tabContent.Size = UDim2.new(1, 0, 1, -30)
+    tabContent.Position = UDim2.new(0, 0, 0, 30)
+    tabContent.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+    tabContent.Visible = false
+    tabContent.Parent = mainFrame
+
+    tabButton.MouseButton1Click:Connect(function()
+        for _, child in ipairs(mainFrame:GetChildren()) do
+            if child:IsA("Frame") and child ~= mainFrame then
+                child.Visible = false
+            end
+        end
+        tabContent.Visible = true
+    end)
+
+    return tabContent
+end
+
+-- Function to create a section
+function UILibrary:CreateSection(parent, text)
+    local section = Instance.new("Frame")
+    section.Size = UDim2.new(1, -10, 0, 60)
+    section.Position = UDim2.new(0, 5, 0, 5)
+    section.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+    section.Parent = parent
+
+    local label = Instance.new("TextLabel")
+    label.Size = UDim2.new(1, 0, 0, 30)
+    label.Text = text
+    label.TextColor3 = Color3.fromRGB(255, 255, 255)
+    label.BackgroundTransparency = 1
+    label.Parent = section
+
+    return section
+end
+
+-- Function to create a button
+function UILibrary:CreateButton(parent, text, callback)
+    local button = Instance.new("TextButton")
+    button.Size = UDim2.new(1, -10, 0, 30)
+    button.Position = UDim2.new(0, 5, 0, 35)
+    button.Text = text
+    button.TextColor3 = Color3.fromRGB(255, 255, 255)
+    button.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
+    button.BorderSizePixel = 0
+    button.Parent = parent
+
+    button.MouseButton1Click:Connect(callback)
+
+    return button
+end
+
+-- Function to create a toggle
+function UILibrary:CreateToggle(parent, text, callback)
+    local toggle = Instance.new("TextButton")
+    toggle.Size = UDim2.new(1, -10, 0, 30)
+    toggle.Position = UDim2.new(0, 5, 0, 35)
+    toggle.Text = text
+    toggle.TextColor3 = Color3.fromRGB(255, 255, 255)
+    toggle.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
+    toggle.BorderSizePixel = 0
+    toggle.Parent = parent
+
+    local toggled = false
+
+    toggle.MouseButton1Click:Connect(function()
+        toggled = not toggled
+        callback(toggled)
+        toggle.BackgroundColor3 = toggled and Color3.fromRGB(100, 100, 100) or Color3.fromRGB(70, 70, 70)
+    end)
+
+    return toggle
+end
+
+-- Function to create a slider
+function UILibrary:CreateSlider(parent, text, min, max, callback)
+    local slider = Instance.new("Frame")
+    slider.Size = UDim2.new(1, -10, 0, 30)
+    slider.Position = UDim2.new(0, 5, 0, 35)
+    slider.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
+    slider.Parent = parent
+
+    local label = Instance.new("TextLabel")
+    label.Size = UDim2.new(0.2, 0, 1, 0)
+    label.Text = text
+    label.TextColor3 = Color3.fromRGB(255, 255, 255)
+    label.BackgroundTransparency = 1
+    label.Parent = slider
+
+    local sliderButton = Instance.new("TextButton")
+    sliderButton.Size = UDim2.new(0.8, -10, 1, 0)
+    sliderButton.Position = UDim2.new(0.2, 5, 0, 0)
+    sliderButton.Text = ""
+    sliderButton.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
+    sliderButton.Parent = slider
+
+    sliderButton.MouseButton1Down:Connect(function()
+        local mouse = game.Players.LocalPlayer:GetMouse()
+        local moving
+
+        moving = mouse.Move:Connect(function()
+            local sliderPos = math.clamp(mouse.X - sliderButton.AbsolutePosition.X, 0, sliderButton.AbsoluteSize.X)
+            local value = math.floor((sliderPos / sliderButton.AbsoluteSize.X) * (max - min) + min)
+            callback(value)
+            sliderButton.Size = UDim2.new(sliderPos / sliderButton.AbsoluteSize.X, 0, 1, 0)
+        end)
+
+        mouse.Button1Up:Connect(function()
+            moving:Disconnect()
+        end)
+    end)
+
+    return slider
+end
+
+return UILibrary
