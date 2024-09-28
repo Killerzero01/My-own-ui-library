@@ -40,7 +40,3 @@ function UILibrary:Window(title)
     
     return UILibrary
 end
-
-UILibrary:Window("Known's Ui Library")
-
-return UILibrary
