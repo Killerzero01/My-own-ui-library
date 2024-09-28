@@ -9,8 +9,10 @@ function UILibrary:Window(title)
     sg.Name = "Knowns Ui Lib"
     sg.ResetOnSpawn = false
     sg.Parent = game.CoreGui
+
     local f = Instance.new("Frame", sg)
     local f_ = Instance.new("Frame", f)
+    local f_0 = Instance.new("Frame", f)
     local tl = Instance.new("TextLabel", f_)
     
     f.Size = UDim2.new(0.65, 0, 1, 0)
@@ -25,6 +27,11 @@ function UILibrary:Window(title)
     f_.Position = UDim2.new(0, 0, 0, 0)
     f_.BackgroundColor3 = Color3.fromRGB(38, 38, 38)
     f_.BorderSizePixel = 0
+    
+    f_0.Size = UDim2.new(0.77, 0, 0.08, 0)
+    f_0.Position = UDim2.new(0.23, 0, 0, 0)
+    f_0.BackgroundColor3 = Color3.fromRGB(38, 38, 38)
+    f_0.BorderSizePixel = 0
     
     tl.Size = UDim2.new(1, 0, 0.15, 0)
     tl.Position = UDim2.new(0, 0, 0, 0)
@@ -55,3 +62,7 @@ function UILibrary:Window(title)
 
     return UILibrary
 end
+
+UILibrary:Window("Known's Ui Library")
+
+return UILibrary
