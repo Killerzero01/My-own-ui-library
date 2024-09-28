@@ -9,34 +9,46 @@ function UILibrary:Window(title)
     f = Instance.new("Frame", game.Players.LocalPlayer.PlayerGui["Knowns Ui Lib"])
     f_ = Instance.new("Frame", f)
     f_0 = Instance.new("Frame", f)
+    f_1 = Instance.new("Frame", f)
+    f_2 = Instance.new("Frame", f_)
     tl = Instance.new("TextLabel", f_)
-    
+
     f.Size = UDim2.new(0.65, 0, 1, 0)
     f.Position = UDim2.new(0.5, 0, 0.45, 0)
-    f.BackgroundColor3 = Color3.fromRGB(18, 18, 18)
+    f.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
     f.BorderSizePixel = 0
     f.AnchorPoint = Vector2.new(0.5, 0.5)
     f.Active = true
     f.Draggable = true
-    
+
     f_.Size = UDim2.new(0.23, 0, 1, 0)
     f_.Position = UDim2.new(0, 0, 0, 0)
-    f_.BackgroundColor3 = Color3.fromRGB(38, 38, 38)
+    f_.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
     f_.BorderSizePixel = 0
-    
+
     f_0.Size = UDim2.new(0.77, 0, 0.08, 0)
     f_0.Position = UDim2.new(0.23, 0, 0, 0)
-    f_0.BackgroundColor3 = Color3.fromRGB(38, 38, 38)
+    f_0.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
     f_0.BorderSizePixel = 0
-    
+
+    f_1.Size = UDim2.new(0.77, 0, 0.92, 0)
+    f_1.Position = UDim2.new(0.23, 0, 0.08, 0)
+    f_1.BackgroundColor3 = Color3.fromRGB(18, 18, 18)
+    f_1.BorderSizePixel = 0
+
+    f_2.Size = UDim2.new(0.89, 0, 0.7, 0)
+    f_2.Position = UDim2.new(0.06, 0, 0.24, 0)
+    f_2.BackgroundColor3 = Color3.fromRGB(18, 18, 18)
+    f_2.BorderSizePixel = 0
+
     tl.Size = UDim2.new(1, 0, 0.15, 0)
     tl.Position = UDim2.new(0, 0, 0, 0)
     tl.Text = title
-    tl.TextColor3 = Color3.fromRGB(175, 175, 175)
+    tl.TextColor3 = Color3.fromRGB(180, 180, 180)
     tl.BackgroundTransparency = 1
     tl.Font = Enum.Font.SourceSansBold
     tl.TextScaled = true
     tl.TextWrapped = true
-    
+
     return UILibrary
 end
