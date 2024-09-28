@@ -1,1 +1,57 @@
-nvm
+UILibrary = {}
+
+function UILibrary:Window(title)
+    if game.CoreGui:FindFirstChild("Knowns Ui Lib") then
+        game.CoreGui["Knowns Ui Lib"]:Destroy()
+    end
+
+    local sg = Instance.new("ScreenGui")
+    sg.Name = "Knowns Ui Lib"
+    sg.ResetOnSpawn = false
+    sg.Parent = game.CoreGui
+    local f = Instance.new("Frame", sg)
+    local f_ = Instance.new("Frame", f)
+    local tl = Instance.new("TextLabel", f_)
+    
+    f.Size = UDim2.new(0.65, 0, 1, 0)
+    f.Position = UDim2.new(0.5, 0, 0.45, 0)
+    f.BackgroundColor3 = Color3.fromRGB(18, 18, 18)
+    f.BorderSizePixel = 0
+    f.AnchorPoint = Vector2.new(0.5, 0.5)
+    f.Active = true
+    f.Draggable = true
+    
+    f_.Size = UDim2.new(0.23, 0, 1, 0)
+    f_.Position = UDim2.new(0, 0, 0, 0)
+    f_.BackgroundColor3 = Color3.fromRGB(38, 38, 38)
+    f_.BorderSizePixel = 0
+    
+    tl.Size = UDim2.new(1, 0, 0.15, 0)
+    tl.Position = UDim2.new(0, 0, 0, 0)
+    tl.Text = title
+    tl.TextColor3 = Color3.fromRGB(175, 175, 175)
+    tl.BackgroundTransparency = 1
+    tl.Font = Enum.Font.SourceSansBold
+    tl.TextScaled = true
+    tl.TextWrapped = true
+    
+    local function protectSG()
+        sg.AncestryChanged:Connect(function(_, parent)
+            if not parent then
+                wait(0.1)
+                sg.Parent = game.CoreGui
+            end
+        end)
+
+        game.CoreGui.ChildRemoved:Connect(function(child)
+            if child == sg then
+                wait(0.1)
+                sg.Parent = game.CoreGui
+            end
+        end)
+    end
+
+    protectSG()
+
+    return UILibrary
+end
