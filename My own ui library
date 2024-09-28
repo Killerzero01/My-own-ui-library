@@ -1,19 +1,15 @@
 UILibrary = {}
 
 function UILibrary:Window(title)
-    if game.CoreGui:FindFirstChild("Knowns Ui Lib") then
-        game.CoreGui["Knowns Ui Lib"]:Destroy()
+    if game.Players.LocalPlayer.PlayerGui:FindFirstChild("Knowns Ui Lib") then
+        game.Players.LocalPlayer.PlayerGui["Knowns Ui Lib"]:Destroy()
     end
 
-    local sg = Instance.new("ScreenGui")
-    sg.Name = "Knowns Ui Lib"
-    sg.ResetOnSpawn = false
-    sg.Parent = game.CoreGui
-
-    local f = Instance.new("Frame", sg)
-    local f_ = Instance.new("Frame", f)
-    local f_0 = Instance.new("Frame", f)
-    local tl = Instance.new("TextLabel", f_)
+    Instance.new("ScreenGui", game.Players.LocalPlayer.PlayerGui).Name = "Knowns Ui Lib"
+    f = Instance.new("Frame", game.Players.LocalPlayer.PlayerGui["Knowns Ui Lib"])
+    f_ = Instance.new("Frame", f)
+    f_0 = Instance.new("Frame", f)
+    tl = Instance.new("TextLabel", f_)
     
     f.Size = UDim2.new(0.65, 0, 1, 0)
     f.Position = UDim2.new(0.5, 0, 0.45, 0)
@@ -42,24 +38,6 @@ function UILibrary:Window(title)
     tl.TextScaled = true
     tl.TextWrapped = true
     
-    local function protectSG()
-        sg.AncestryChanged:Connect(function(_, parent)
-            if not parent then
-                wait(0.1)
-                sg.Parent = game.CoreGui
-            end
-        end)
-
-        game.CoreGui.ChildRemoved:Connect(function(child)
-            if child == sg then
-                wait(0.1)
-                sg.Parent = game.CoreGui
-            end
-        end)
-    end
-
-    protectSG()
-
     return UILibrary
 end
 
