@@ -1,8 +1,3 @@
--- [ If Ur Gonna Skid Or Steal Something ] --
--- [ Atlesat Give Credit To KnownZero ] --
--- [ Discord Server Link: https://discord.gg/DpPzVTHw5x ] --
--- [ The Uses And Time Are Infinite So Don't Ly ] --
-
 local redzlib = loadstring(game:HttpGet("https://raw.githubusercontent.com/REDzHUB/RedzLibV5/main/Source.Lua"))()
 local Window = redzlib:MakeWindow({Title = "Known's Hub", SubTitle = "Welcome User " .. game.Players.LocalPlayer.Name, SaveFolder = "DefaultConfig"})
 
