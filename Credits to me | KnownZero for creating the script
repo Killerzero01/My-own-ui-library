@@ -164,7 +164,6 @@ FunTab:AddButton({
         Fire.Heat = 5
         Fire.Size = 4
         local Fire = Instance.new("Fire",game.Players.LocalPlayer.Character.RightHand)
-        Fire.Parent = 
         Fire.Heat = 5
         Fire.Size = 4
     end
