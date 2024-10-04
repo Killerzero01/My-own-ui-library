@@ -2,79 +2,17 @@ local redzlib = loadstring(game:HttpGet("https://raw.githubusercontent.com/REDzH
 local Window = redzlib:MakeWindow({Title = "Known's Hub", SubTitle = "Welcome User " .. game.Players.LocalPlayer.Name, SaveFolder = "DefaultConfig"})
 
 -- Tabs
-local MainTab = Window:MakeTab({"Main Tab"})
 local FarmTab = Window:MakeTab({"Farm Tab"})
-local FunTab = Window:MakeTab({"Fun Tab"})
-local AntiTab = Window:MakeTab({"Antis Tab"})
 local PlrTab = Window:MakeTab({"Player Tab"})
+local FunTab = Window:MakeTab({"Fun Tab"})
 
 -- Variables
 local coin = false
 local afk = false
 local banana = false
+local fastestcoin = false
 
 -- Buttons - Toggled - Sliders
-FunTab:AddDropdown({
-    Name = "Players List",
-    Options = (function()
-        local list = {}
-        for _, player in ipairs(game.Players:GetPlayers()) do
-            if player.Name ~= game.Players.LocalPlayer.Name then
-                table.insert(list, player.Name)
-            end
-        end
-        return list
-    end)(),
-    Default = "Please Pick A Player",
-    Callback = function(v)
-        selectedPlayer = v
-    end
-})
-
-FunTab:AddButton({
-    Name = "Force Kill",
-    Default = false,
-    Callback = function()
-        if selectedPlayer then
-            if not game.Players.LocalPlayer.Backpack:FindFirstChild("Lifeboat") then
-                game:GetService("ReplicatedStorage").RemoteEvents.Gameplay.AttemptPurchase:InvokeServer("SurvivalShop_Lifeboat")
-            end
-        end
-        game.Players.LocalPlayer.Character.Humanoid:EquipTool(game.Players.LocalPlayer.Backpack:WaitForChild("Lifeboat"))
-        repeat wait() until game.Players.LocalPlayer.Character:FindFirstChild("Lifeboat")
-        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-144.2454071044922, 119.5, -258.4832763671875)
-        wait(0.5)
-        game.Players.LocalPlayer.Character.Lifeboat.PlaceItem:FireServer(CFrame.new(-144.2454071044922, 119.5, -258.4832763671875), 2)
-        wait(0.5)
-        local lifeboat = workspace:WaitForChild("ActiveGearDebris"):WaitForChild("Lifeboats"):FindFirstChild("Lifeboat", 5)
-        if lifeboat and lifeboat:FindFirstChild("OwnerUserId") and lifeboat.OwnerUserId.Value == game.Players.LocalPlayer.UserId then
-            if lifeboat:FindFirstChildOfClass("VehicleSeat") then
-                lifeboat:FindFirstChildOfClass("VehicleSeat"):Sit(game.Players.LocalPlayer.Character.Humanoid)
-            end
-        end
-    end
-})
-
-FunTab:AddButton({
-    Name = "Force Bring",
-    Default = false,
-    Callback = function()
-        if selectedPlayer then
-            
-        end
-    end
-})
-
-FunTab:AddButton({
-    Name = "Force Win",
-    Default = false,
-    Callback = function()
-        if selectedPlayer then
-            
-        end
-    end
-})
-
 FarmTab:AddToggle({
     Name = "Afk Farmer",
     Default = false,
@@ -133,6 +71,22 @@ FarmTab:AddToggle({
             wait()
         end
         workspace.Gravity = rg
+    end
+})
+
+FarmTab:AddToggle({
+    Name = "Sell Farmer [ Requirement 25 coins ]",
+    Default = false,
+    Callback = function(v)
+        fastestcoin = v
+        if fastestcoin then
+            while fastestcoin do
+                wait()
+                game:GetService("ReplicatedStorage").RemoteEvents.Gameplay.AttemptPurchase:InvokeServer("SurvivalShop_Banana")
+                wait(00001)
+                game:GetService("ReplicatedStorage").RemoteEvents.Gui.BlackMarketEvent:FireServer("SellBanana",true)
+            end
+        end
     end
 })
 
@@ -199,5 +153,19 @@ PlrTab:AddSlider({
     Default = 0.5,
     Callback = function(v)
         getgenv().TPSpeed = v
+    end
+})
+
+FunTab:AddButton({
+    Name = "Fire Hands",
+    Default = false,
+    Callback = function()
+        local Fire = Instance.new("Fire",game.Players.LocalPlayer.Character.LeftHand)
+        Fire.Heat = 5
+        Fire.Size = 4
+        local Fire = Instance.new("Fire",game.Players.LocalPlayer.Character.RightHand)
+        Fire.Parent = 
+        Fire.Heat = 5
+        Fire.Size = 4
     end
 })
