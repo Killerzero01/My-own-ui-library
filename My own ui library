@@ -1,54 +1,99 @@
-UILibrary = {}
+local UILibrary = {}
 
-function UILibrary:Window(title)
-    if game.Players.LocalPlayer.PlayerGui:FindFirstChild("Knowns Ui Lib") then
-        game.Players.LocalPlayer.PlayerGui["Knowns Ui Lib"]:Destroy()
+function UILibrary:AddWindow(data)
+    local themes = {
+        Dark = {
+            FrameColor = Color3.fromRGB(45, 45, 45),
+            TextColor = Color3.fromRGB(255, 255, 255),
+            ButtonColor = Color3.fromRGB(25, 25, 25),
+            ButtonTextColor = Color3.fromRGB(255, 255, 255),
+            Gradient = ColorSequence.new{
+                ColorSequenceKeypoint.new(0, Color3.fromRGB(0, 0, 0)),
+                ColorSequenceKeypoint.new(0.1, Color3.fromRGB(25, 25, 25)),
+                ColorSequenceKeypoint.new(0.2, Color3.fromRGB(45, 45, 45)),
+                ColorSequenceKeypoint.new(0.3, Color3.fromRGB(50, 50, 50)),
+                ColorSequenceKeypoint.new(0.5, Color3.fromRGB(65, 65, 65)),
+                ColorSequenceKeypoint.new(0.7, Color3.fromRGB(50, 50, 50)),
+                ColorSequenceKeypoint.new(0.8, Color3.fromRGB(45, 45, 45)),
+                ColorSequenceKeypoint.new(0.9, Color3.fromRGB(25, 25, 25)),
+                ColorSequenceKeypoint.new(1, Color3.fromRGB(0, 0, 0))
+            }
+        }
+    }
+
+    local selectedTheme = themes[data.Theme] or themes.Dark
+
+    local function parentgui(sg)
+        local parent = game.Players.LocalPlayer:FindFirstChild("PlayerGui") or game:GetService("CoreGui")
+        if parent then
+            sg.Parent = parent
+        end
     end
 
-    Instance.new("ScreenGui", game.Players.LocalPlayer.PlayerGui).Name = "Knowns Ui Lib"
-    f = Instance.new("Frame", game.Players.LocalPlayer.PlayerGui["Knowns Ui Lib"])
-    f_ = Instance.new("Frame", f)
-    f_0 = Instance.new("Frame", f)
-    f_1 = Instance.new("Frame", f)
-    f_2 = Instance.new("Frame", f_)
-    tl = Instance.new("TextLabel", f_)
+    local sg = Instance.new("ScreenGui")
+    sg.Name = "Knowns | UILib | " .. math.random(1, 10000)
+    sg.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+    sg.ResetOnSpawn = false
 
-    f.Size = UDim2.new(0.65, 0, 1, 0)
-    f.Position = UDim2.new(0.5, 0, 0.45, 0)
-    f.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
-    f.BorderSizePixel = 0
+    local exists = game.Players.LocalPlayer:FindFirstChild("PlayerGui"):FindFirstChild(sg.Name)
+    if not exists then
+        parentgui(sg)
+    end
+
+    local f = Instance.new("Frame", sg)
+    f.Size = UDim2.fromScale(0.65, 0.3)
+    f.Position = UDim2.fromScale(0.5, 0.5)
     f.AnchorPoint = Vector2.new(0.5, 0.5)
+    f.BackgroundColor3 = selectedTheme.FrameColor
     f.Active = true
     f.Draggable = true
 
-    f_.Size = UDim2.new(0.23, 0, 1, 0)
-    f_.Position = UDim2.new(0, 0, 0, 0)
-    f_.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-    f_.BorderSizePixel = 0
+    local uic = Instance.new("UICorner", f)
+    uic.CornerRadius = UDim.new(0, 8)
 
-    f_0.Size = UDim2.new(0.77, 0, 0.08, 0)
-    f_0.Position = UDim2.new(0.23, 0, 0, 0)
-    f_0.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-    f_0.BorderSizePixel = 0
+    local uig = Instance.new("UIGradient", f)
+    uig.Color = selectedTheme.Gradient
+    uig.Rotation = 55
 
-    f_1.Size = UDim2.new(0.77, 0, 0.92, 0)
-    f_1.Position = UDim2.new(0.23, 0, 0.08, 0)
-    f_1.BackgroundColor3 = Color3.fromRGB(18, 18, 18)
-    f_1.BorderSizePixel = 0
+    local invisf = Instance.new("Frame", f)
+    invisf.Size = UDim2.fromScale(1, 0.2)
+    invisf.Position = UDim2.fromScale(0, 0)
+    invisf.BackgroundTransparency = 1
 
-    f_2.Size = UDim2.new(0.89, 0, 0.7, 0)
-    f_2.Position = UDim2.new(0.06, 0, 0.24, 0)
-    f_2.BackgroundColor3 = Color3.fromRGB(18, 18, 18)
-    f_2.BorderSizePixel = 0
+    local title = Instance.new("TextLabel", invisf)
+    title.Size = UDim2.fromScale(0.4, 0.3)
+    title.Position = UDim2.fromScale(0.01, 0)
+    title.BackgroundTransparency = 1
+    title.TextColor3 = selectedTheme.TextColor
+    title.TextScaled = true
+    title.Text = data.Title or "Welcome to Known's Hub"
 
-    tl.Size = UDim2.new(1, 0, 0.15, 0)
-    tl.Position = UDim2.new(0, 0, 0, 0)
-    tl.Text = title
-    tl.TextColor3 = Color3.fromRGB(180, 180, 180)
-    tl.BackgroundTransparency = 1
-    tl.Font = Enum.Font.SourceSansBold
-    tl.TextScaled = true
-    tl.TextWrapped = true
+    if data.SubTitle then
+        local subTitle = Instance.new("TextLabel", invisf)
+        subTitle.Size = UDim2.fromScale(0.4, 0.3)
+        subTitle.Position = UDim2.fromScale(0.01, 0.5)
+        subTitle.BackgroundTransparency = 1
+        subTitle.TextColor3 = selectedTheme.TextColor
+        subTitle.TextScaled = true
+        subTitle.Text = data.SubTitle
+    end
 
-    return UILibrary
+    local ft = Instance.new("TextButton", sg)
+    ft.Size = UDim2.fromScale(0.13, 0.1)
+    ft.Position = UDim2.fromScale(0.83, 0.01)
+    ft.BackgroundColor3 = selectedTheme.ButtonColor
+    ft.BorderSizePixel = 0
+    ft.Text = "Open/Close"
+    ft.TextColor3 = selectedTheme.ButtonTextColor
+    ft.TextScaled = true
+    ft.Active = true
+    ft.Draggable = false
+
+    ft.MouseButton1Click:Connect(function()
+        f.Visible = not f.Visible
+    end)
+
+    return sg
 end
+
+return UILibrary
