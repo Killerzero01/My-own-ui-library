@@ -76,7 +76,7 @@ FarmTab:AddToggle({
 })
 
 FarmTab:AddToggle({
-    Name = "Sell Farmer [ Requirement 25 coins ]",
+    Name = "Sell Farmer [ Requirement 25 coins ] { credits to @Ewerton99-Script }",
     Default = false,
     Callback = function(v)
         fastestcoin = v
@@ -92,7 +92,7 @@ FarmTab:AddToggle({
 })
 
 FarmTab:AddToggle({
-    Name = "Auto Win [Over Powered]",
+    Name = "Auto Win [Over Powered] { credits to @Ewerton99-Script }",
     Default = false,
     Callback = function(v)
         win = v
