@@ -1,35 +1,42 @@
 local redzlib = loadstring(game:HttpGet("https://raw.githubusercontent.com/REDzHUB/RedzLibV5/main/Source.Lua"))()
 local Window = redzlib:MakeWindow({Title = "Known's Hub", SubTitle = "Welcome User " .. game.Players.LocalPlayer.Name, SaveFolder = "DefaultConfig"})
 
--- Tabs
+-- // Tabs \\ --
 local FarmTab = Window:MakeTab({"Farm Tab"})
+local TrollTab = Window:MakeTab({"Troll Tab"})
 local PlrTab = Window:MakeTab({"Player Tab"})
+local AntisTab = Window:MakeTab({"Antis Tab"})
 local FunTab = Window:MakeTab({"Fun Tab"})
+local ForBiddenTab = Window:MakeTab({"ForBidden Tab"})
 
--- Variables
+-- || Variables || --
 local coin = false
 local afk = false
 local banana = false
 local fastestcoin = false
 local win = false
+local connection
 
--- Buttons - Toggled - Sliders
+-- || Stored Variables || --
+local storepos = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+
+-- \\ Buttons - Toggled // - Sliders // --
 FarmTab:AddToggle({
-    Name = "Afk Farmer",
+    Name = "Afk Farmer [Updated And Working]",
     Default = false,
     Callback = function(v)
         afk = v
         if afk then
-            local p = Instance.new("Part", game.Workspace)
-            p.Size = Vector3.new(10, 0.1, 10)
-            p.CFrame = CFrame.new(143.8, 114, -727)
+            local p = Instance.new("Part",game.Workspace)
+            p.Size = Vector3.new(10,0.1,10)
+            p.CFrame = CFrame.new(142.9,114,-729)
             p.Anchored = true
             p.Material = Enum.Material.Neon
             p.Transparency = 0.8
             game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = p.CFrame + Vector3.new(0, p.Size.Y / 2 + game.Players.LocalPlayer.Character.HumanoidRootPart.Size.Y / 2, 0)
             while afk do
-                for hue = 0, 1, 0.01 do
-                    p.Color = Color3.fromHSV(hue, 1, 1)
+                for hue = 0,1,0.01 do
+                    p.Color = Color3.fromHSV(hue,1,1)
                     wait(0.1)
                     if not afk then break end
                 end
@@ -40,7 +47,7 @@ FarmTab:AddToggle({
 })
 
 FarmTab:AddToggle({
-    Name = "Coin Farmer",
+    Name = "Coin Farmer [I'd Say Great]",
     Default = false,
     Callback = function(v)
         coin = v
@@ -60,15 +67,15 @@ FarmTab:AddToggle({
 })
 
 FarmTab:AddToggle({
-    Name = "Chrome Banana Farmer",
+    Name = "Chrome Banana Farmer [Just Farm Bananas]",
     Default = false,
     Callback = function(v)
         banana = v
         local rg = workspace.Gravity
         while banana do
             workspace.Gravity = 0
-            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-188, -2093.5, -19.5) + Vector3.new(0, 3, 0)
-            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(170, -2093.5, -19.5) + Vector3.new(0, 3, 0)
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-188,-2093.5,-19.5) + Vector3.new(0,3,0)
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(170,-2093.5,-19.5) + Vector3.new(0,3,0)
             wait()
         end
         workspace.Gravity = rg
@@ -76,7 +83,7 @@ FarmTab:AddToggle({
 })
 
 FarmTab:AddToggle({
-    Name = "Sell Farmer [ Requirement 25 coins ] { credits to @Ewerton99-Script }",
+    Name = "Sell Farmer [Reworked Fast As Lighting]",
     Default = false,
     Callback = function(v)
         fastestcoin = v
@@ -84,7 +91,7 @@ FarmTab:AddToggle({
             while fastestcoin do
                 wait()
                 game:GetService("ReplicatedStorage").RemoteEvents.Gameplay.AttemptPurchase:InvokeServer("SurvivalShop_Banana")
-                wait(00001)
+                wait(0.0000001)
                 game:GetService("ReplicatedStorage").RemoteEvents.Gui.BlackMarketEvent:FireServer("SellBanana",true)
             end
         end
@@ -92,19 +99,35 @@ FarmTab:AddToggle({
 })
 
 FarmTab:AddToggle({
-    Name = "Auto Win [Over Powered] { credits to @Ewerton99-Script }",
+    Name = "Auto Win [Not The Best Well Be Update hopedfully]",
     Default = false,
     Callback = function(v)
         win = v
         if win then
             while win do
-                local tween = game:GetService("TweenService"):Create(game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart"),TweenInfo.new(7),{CFrame =CFrame.new(-9.4971323, 39.9823875, -1051.51807, 0.985789657, -0.00746125402, -0.16781877, -0.00396866864, 0.997699857, -0.0676704049, 0.167937666, 0.0673748031, 0.983492553)});tween:Play();tween.Completed:Wait()
+                local tween = game:GetService("TweenService"):Create(game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart"),TweenInfo.new(7),{CFrame =CFrame.new(-9.4971323,39.9823875,-1051.51807,0.985789657,-0.00746125402,-0.16781877,-0.00396866864,0.997699857,-0.0676704049,0.167937666,0.0673748031,0.983492553)});tween:Play();tween.Completed:Wait()
                 wait(1)
-                game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame = CFrame.new(0.88348788, 230.699554, 982.310242, -0.999389589, -0.000123913429, 0.0349354483, -0.000140547054, 0.999999881, -0.000473669439, -0.034935385, -0.000478290371, -0.99938947)
+                game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame = CFrame.new(0.88348788,230.699554,982.310242,-0.999389589,-0.000123913429,0.0349354483,-0.000140547054,0.999999881,-0.000473669439,-0.034935385,-0.000478290371,-0.99938947)
             end
         end
     end
 })
+
+FarmTab:AddToggle({
+    Name = "Auto Play MiniGame [New]",
+    Default = false,
+    Callback = function(v)
+        if v then
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(1205.31,240.24,-1054.60)
+            while v and task.wait(0) do
+                fireproximityprompt(workspace:WaitForChild("ScriptImportance"):WaitForChild("StreamingPersistent"):WaitForChild("BananaClicker"):WaitForChild("ProximityPrompt"))
+            end
+        else
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = storepos
+        end
+    end
+})
+
 
 game.Players.LocalPlayer.CharacterAdded:Connect(function(c)
     c:WaitForChild("Humanoid").WalkSpeed = speedv
@@ -172,6 +195,29 @@ PlrTab:AddSlider({
     end
 })
 
+AntisTab:AddToggle({
+    Name = "Anti Tsunamis",
+    Default = false,
+    Callback = function(v)
+        if v then
+            connection = game:GetService("RunService").Heartbeat:Connect(function()
+                local activeTsunamis = workspace:FindFirstChild("ActiveTsunamis")
+                if activeTsunamis then
+                    for _, model in pairs(activeTsunamis:GetChildren()) do
+                        if model:IsA("Model") then
+                            model:Destroy()
+                        end
+                    end
+                end
+            end)
+        else
+            if connection then
+                connection:Disconnect()
+            end
+        end
+    end
+})
+
 FunTab:AddButton({
     Name = "Fire Hands",
     Default = false,
@@ -182,5 +228,30 @@ FunTab:AddButton({
         local Fire = Instance.new("Fire",game.Players.LocalPlayer.Character.RightHand)
         Fire.Heat = 5
         Fire.Size = 4
+    end
+})
+
+ForBiddenTab:AddToggle({
+    Name = "Gain Access To The Group Chest",
+    Default = false,
+    Callback = function(v)
+        game.Players.LocalPlayer:SetAttribute("GroupBenefitGiven",v or false)
+    end
+})
+
+ForBiddenTab:AddToggle({
+    Name = "Gain A One Of A Kind Gamepass 2X Risk",
+    Default = false,
+    Callback = function(v)
+        game:GetService("Players").LocalPlayer.PlrStats.Risk2XEnabled.Value = v
+        game:GetService("Players").LocalPlayer.Gamepasses.Has2XRisk.Value = v
+    end
+})
+
+ForBiddenTab:AddToggle({
+    Name = "Gain A One Of A Kind Gamepass Coin Chipper",
+    Default = false,
+    Callback = function(v)
+        game:GetService("Players").LocalPlayer.Gamepasses.HasCoinChipper.Value = v
     end
 })
