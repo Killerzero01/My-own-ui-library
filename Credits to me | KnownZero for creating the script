@@ -2,6 +2,7 @@ local redzlib = loadstring(game:HttpGet("https://raw.githubusercontent.com/REDzH
 local Window = redzlib:MakeWindow({Title = "Known's Hub", SubTitle = "Welcome User " .. game.Players.LocalPlayer.Name, SaveFolder = "DefaultConfig"})
 
 -- // Tabs \\ --
+
 local FarmTab = Window:MakeTab({"Farm Tab"})
 local TrollTab = Window:MakeTab({"Troll Tab"})
 local PlrTab = Window:MakeTab({"Player Tab"})
@@ -10,23 +11,20 @@ local FunTab = Window:MakeTab({"Fun Tab"})
 local ForBiddenTab = Window:MakeTab({"ForBidden Tab"})
 
 -- || Variables || --
-local coin = false
-local afk = false
-local banana = false
-local fastestcoin = false
-local win = false
+
+local hrp = game.Players.LocalPlayer.Character.HumanoidRootPart
+local storepos = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+local origpos = workspace.ScriptImportance.IntoTheVoid1.VoidEnd.Position
+local origpos_ = workspace.ScriptImportance.IntoTheVoid2.VoidEnd.Position
 local connection
 
--- || Stored Variables || --
-local storepos = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+-- \\ Buttons - Toggled - Sliders // --
 
--- \\ Buttons - Toggled // - Sliders // --
 FarmTab:AddToggle({
     Name = "Afk Farmer [Updated And Working]",
     Default = false,
     Callback = function(v)
-        afk = v
-        if afk then
+        if v then
             local p = Instance.new("Part",game.Workspace)
             p.Size = Vector3.new(10,0.1,10)
             p.CFrame = CFrame.new(142.9,114,-729)
@@ -34,11 +32,11 @@ FarmTab:AddToggle({
             p.Material = Enum.Material.Neon
             p.Transparency = 0.8
             game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = p.CFrame + Vector3.new(0, p.Size.Y / 2 + game.Players.LocalPlayer.Character.HumanoidRootPart.Size.Y / 2, 0)
-            while afk do
+            while v do
                 for hue = 0,1,0.01 do
                     p.Color = Color3.fromHSV(hue,1,1)
                     wait(0.1)
-                    if not afk then break end
+                    if not v then break end
                 end
             end
             p:Destroy()
@@ -47,16 +45,15 @@ FarmTab:AddToggle({
 })
 
 FarmTab:AddToggle({
-    Name = "Coin Farmer [I'd Say Great]",
+    Name = "Coin Farmer [Updated]",
     Default = false,
     Callback = function(v)
-        coin = v
-        if coin then
-            while coin do
-                for _, coinFolder in pairs(workspace:FindFirstChild("CurrentPointCoins"):GetChildren()) do
-                    local coincollision = coinFolder:FindFirstChild("CoinCollision")
-                    if coincollision then
-                        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = coincollision.CFrame
+        if v then
+            while v do
+                for _, coinfolders in ipairs(workspace:FindFirstChild("CurrentPointCoins"):GetChildren()) do
+                    local coin = coinfolders:FindFirstChild("CoinCollision")
+                    if coin then
+                        coin.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
                         wait()
                     end
                 end
@@ -67,31 +64,38 @@ FarmTab:AddToggle({
 })
 
 FarmTab:AddToggle({
-    Name = "Chrome Banana Farmer [Just Farm Bananas]",
+    Name = "Chrome Banana Farmer [Insane Update]",
     Default = false,
     Callback = function(v)
-        banana = v
-        local rg = workspace.Gravity
-        while banana do
-            workspace.Gravity = 0
-            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-188,-2093.5,-19.5) + Vector3.new(0,3,0)
-            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(170,-2093.5,-19.5) + Vector3.new(0,3,0)
-            wait()
+        if v then
+            connection = game:GetService("RunService").Heartbeat:Connect(function()
+                workspace.ScriptImportance.IntoTheVoid1.VoidEnd.Position = hrp.Position
+                workspace.ScriptImportance.IntoTheVoid2.VoidEnd.Position = hrp.Position
+                wait(0.1)
+                workspace.ScriptImportance.IntoTheVoid1.VoidEnd.Position = origpos
+                workspace.ScriptImportance.IntoTheVoid2.VoidEnd.Position = origpos_
+                wait(0.1)
+            end)
+        else
+            if connection then
+                connection:Disconnect()
+                connection = nil
+            end
+            workspace.ScriptImportance.IntoTheVoid1.VoidEnd.Position = origpos
+            workspace.ScriptImportance.IntoTheVoid2.VoidEnd.Position = origpos_
         end
-        workspace.Gravity = rg
     end
 })
 
 FarmTab:AddToggle({
-    Name = "Sell Farmer [Reworked Fast As Lighting]",
+    Name = "Sell Farmer",
     Default = false,
     Callback = function(v)
-        fastestcoin = v
-        if fastestcoin then
-            while fastestcoin do
+        if v then
+            while v do
                 wait()
                 game:GetService("ReplicatedStorage").RemoteEvents.Gameplay.AttemptPurchase:InvokeServer("SurvivalShop_Banana")
-                wait(0.0000001)
+                wait(00001)
                 game:GetService("ReplicatedStorage").RemoteEvents.Gui.BlackMarketEvent:FireServer("SellBanana",true)
             end
         end
@@ -102,9 +106,8 @@ FarmTab:AddToggle({
     Name = "Auto Win [Not The Best Well Be Update hopedfully]",
     Default = false,
     Callback = function(v)
-        win = v
-        if win then
-            while win do
+        if v then
+            while v do
                 local tween = game:GetService("TweenService"):Create(game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart"),TweenInfo.new(7),{CFrame =CFrame.new(-9.4971323,39.9823875,-1051.51807,0.985789657,-0.00746125402,-0.16781877,-0.00396866864,0.997699857,-0.0676704049,0.167937666,0.0673748031,0.983492553)});tween:Play();tween.Completed:Wait()
                 wait(1)
                 game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame = CFrame.new(0.88348788,230.699554,982.310242,-0.999389589,-0.000123913429,0.0349354483,-0.000140547054,0.999999881,-0.000473669439,-0.034935385,-0.000478290371,-0.99938947)
@@ -147,9 +150,9 @@ PlrTab:AddSlider({
 
 PlrTab:AddSlider({
     Name = "JumpPower",
-    Min = 60,
+    Min = 50,
     Max = 500,
-    Default = 60,
+    Default = 50,
     Callback = function(v)
         jumpv = v
         game.Players.LocalPlayer.Character.Humanoid.JumpPower = v
@@ -195,6 +198,33 @@ PlrTab:AddSlider({
     end
 })
 
+PlrTab:AddToggle({
+    Name = "VFly By [Known] { There Are Some Bugs }",
+    Default = false,
+    Callback = function(v)
+        local cam = game.Workspace.CurrentCamera
+        local bv, bg, conn
+        if v then
+            bv = Instance.new("BodyVelocity", hrp)
+            bg = Instance.new("BodyGyro", hrp)
+            bv.MaxForce, bg.MaxTorque = Vector3.new(math.huge, math.huge, math.huge), Vector3.new(math.huge, math.huge, math.huge)
+            conn = game:GetService("RunService").RenderStepped:Connect(function()
+                local dir = cam.CFrame.LookVector + Vector3.new(
+                    (game:GetService("UserInputService"):IsKeyDown(Enum.KeyCode.D) and 1 or 0) - (game:GetService("UserInputService"):IsKeyDown(Enum.KeyCode.A) and 1 or 0),
+                    (game:GetService("UserInputService"):IsKeyDown(Enum.KeyCode.Space) and 1 or 0) - (game:GetService("UserInputService"):IsKeyDown(Enum.KeyCode.LeftShift) and 1 or 0),
+                    (game:GetService("UserInputService"):IsKeyDown(Enum.KeyCode.W) and -1 or 0) + (game:GetService("UserInputService"):IsKeyDown(Enum.KeyCode.S) and 1 or 0)
+                )
+                bv.Velocity, bg.CFrame = dir.Unit * 300, cam.CFrame
+            end)
+        else
+            if conn then conn:Disconnect() end
+            if bv then bv:Destroy() end
+            if bg then bg:Destroy() end
+            hrp.Velocity = Vector3.new(0, 0, 0)
+        end
+    end
+})
+
 AntisTab:AddToggle({
     Name = "Anti Tsunamis",
     Default = false,
@@ -218,16 +248,21 @@ AntisTab:AddToggle({
     end
 })
 
-FunTab:AddButton({
+FunTab:AddToggle({
     Name = "Fire Hands",
     Default = false,
-    Callback = function()
-        local Fire = Instance.new("Fire",game.Players.LocalPlayer.Character.LeftHand)
-        Fire.Heat = 5
-        Fire.Size = 4
-        local Fire = Instance.new("Fire",game.Players.LocalPlayer.Character.RightHand)
-        Fire.Heat = 5
-        Fire.Size = 4
+    Callback = function(v)
+        if v then
+            Instance.new("Fire", game.Players.LocalPlayer.Character.LeftHand).Heat, Instance.new("Fire", game.Players.LocalPlayer.Character.RightHand).Heat = 5, 5
+            game.Players.LocalPlayer.Character.LeftHand.Fire.Size, game.Players.LocalPlayer.Character.RightHand.Fire.Size = 4, 4
+        else
+            if game.Players.LocalPlayer.Character.LeftHand:FindFirstChild("Fire") then
+                game.Players.LocalPlayer.Character.LeftHand.Fire:Destroy()
+            end
+            if game.Players.LocalPlayer.Character.RightHand:FindFirstChild("Fire") then
+                game.Players.LocalPlayer.Character.RightHand.Fire:Destroy()
+            end
+        end
     end
 })
 
@@ -235,7 +270,7 @@ ForBiddenTab:AddToggle({
     Name = "Gain Access To The Group Chest",
     Default = false,
     Callback = function(v)
-        game.Players.LocalPlayer:SetAttribute("GroupBenefitGiven",v or false)
+        game.Players.LocalPlayer:SetAttribute("GroupBenefitGiven",vorfalse)
     end
 })
 
