@@ -16,6 +16,7 @@ local hrp = game.Players.LocalPlayer.Character.HumanoidRootPart
 local storepos = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
 local origpos = workspace.ScriptImportance.IntoTheVoid1.VoidEnd.Position
 local origpos_ = workspace.ScriptImportance.IntoTheVoid2.VoidEnd.Position
+local afk = false
 local connection
 
 -- \\ Buttons - Toggled - Sliders // --
@@ -24,19 +25,20 @@ FarmTab:AddToggle({
     Name = "Afk Farmer [Updated And Working]",
     Default = false,
     Callback = function(v)
-        if v then
+        afk = v
+        if afk then
             local p = Instance.new("Part",game.Workspace)
             p.Size = Vector3.new(10,0.1,10)
-            p.CFrame = CFrame.new(142.9,114,-729)
+            p.CFrame = CFrame.new(142.6,115,-725.8)
             p.Anchored = true
             p.Material = Enum.Material.Neon
             p.Transparency = 0.8
-            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = p.CFrame + Vector3.new(0, p.Size.Y / 2 + game.Players.LocalPlayer.Character.HumanoidRootPart.Size.Y / 2, 0)
-            while v do
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = p.CFrame + Vector3.new(0,p.Size.Y / 2 + game.Players.LocalPlayer.Character.HumanoidRootPart.Size.Y / 2,0)
+            while afk do
                 for hue = 0,1,0.01 do
                     p.Color = Color3.fromHSV(hue,1,1)
                     wait(0.1)
-                    if not v then break end
+                    if not afk then break end
                 end
             end
             p:Destroy()
